@@ -3,7 +3,7 @@ eval 'exec perl -S $0 ${1+"$@"}' &&
 eval 'exec perl -S $0 $argv:q'
 if 0;
 
-# $Id: gencrc.pl,v 1.4 2002-03-29 13:03:15 johnsonw10 Exp $
+# $Id: gencrc.pl,v 1.5 2002-03-29 13:13:40 johnsonw10 Exp $
 ######################################################################
 ####                                                              ####
 #### CRC xor equation generator                                   ####
