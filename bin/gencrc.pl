@@ -3,7 +3,7 @@ eval 'exec perl -S $0 ${1+"$@"}' &&
 eval 'exec perl -S $0 $argv:q'
 if 0;
 
-# $Id: gencrc.pl,v 1.3 2002-03-22 13:43:27 johnsonw10 Exp $
+# $Id: gencrc.pl,v 1.4 2002-03-29 13:03:15 johnsonw10 Exp $
 ######################################################################
 ####                                                              ####
 #### CRC xor equation generator                                   ####
@@ -13,7 +13,7 @@ if 0;
 ####                                                              ####
 #### Description                                                  ####
 #### This script generates CRC xor equations based on user's      ####
-#### parameters (CRC width, data width, MSB, etc)                 ####
+#### parameters (CRC width, data width, MSb, etc)                 ####
 ####                                                              ####
 #### Author:                                                      ####
 #### - johnsonw10@opencores.org                                   ####
@@ -48,6 +48,11 @@ if 0;
 # CVS Revision History
 #
 # $Log: not supported by cvs2svn $
+# Revision 1.3  2002/03/22 13:43:27  johnsonw10
+# Replaced #!/usr/local/bin/perl with eval commands so that the script
+# does not rely on perl being in /usr/local/bin directory.
+# Thanks to Colin Marquardt <c.marquardt@alcatel.de>.
+#
 # Revision 1.2  2002/03/21 19:24:56  johnsonw10
 # Data indexes were reversed.
 #
@@ -66,17 +71,19 @@ if 0;
 #   -dw data_width
 #     1|2|4|8|16|32|64|128|256: default = 8
 #
-#   -cmsb CRC_MSB
-#     0: CRC_MSB = c[0]
-#     1: CRC_MSB = c[cw-1]
+#   -cmsb CRC_MSb
+#     0: CRC_MSb = c[0]
+#     1: CRC_MSb = c[cw-1]
+#     default = 1
 #
-#   -dmsb data_MSB
-#     0: data_MSB = d[0]
-#     1: data_MSB = d[dw-1]
+#   -dmsb data_MSb
+#     0: data_MSb = d[0]
+#     1: data_MSb = d[dw-1]
+#     default = 1
 #
 #   -poly polynomial_coefficients_string
 #     polynomial coefficients 0 - 32: default = Ethernet polynomial
-#     e.g. for CRC8 polynomial 1 + x1 + x2 + x8, the option looks like
+#     e.g. for CRC8 polynomial 1 + x^1 + x^2 + x^8, the option looks like
 #     -poly "1 1 1 0 0 0 0 0 1"
 #
 #   -o out_file_name
@@ -87,7 +94,7 @@ if 0;
 use strict;
 use Getopt::Long;
 
-my $version = "1.0";
+my $version = "1.4";
 
 sub usage {
     my $usage_began = 0;
@@ -194,7 +201,7 @@ else {$fn = "crc" . $c_width . "_" . "d" . $d_width . ".v";}
 open (OUTFILE, "> $fn") or die "Couldn't open file $fn: $!\n\n";
 
 if (@poly != ($c_width + 1)) {
-    die "\nERROR: Invalid Poly length for CRC Width of $c_width.\n";
+    die "\nERROR: Invalid poly length for CRC width of $c_width.\n";
 }
 
 my $i;
@@ -213,6 +220,7 @@ for ($i = 1; $i <= $#poly; $i++) {
 	}
     }
 }
+
 # generate xor equations
 print "\nGenerating xor equations...\n";
 
@@ -271,6 +279,7 @@ for ($i = 0; $i < $c_width; $i++) {
 }
 
 print "Saving xor equations to $fn ...\n";
+
 # add comments to the file
 my $now_string = localtime;
 
@@ -291,8 +300,8 @@ print OUTFILE <<END_OF_HEADER;
 // Parameters:
 //     CRC Width  = $c_width
 //     Data Width = $d_width
-//     CRC MSB    = $c_msb
-//     Data MSB   = $d_msb
+//     CRC MSb    = $c_msb
+//     Data MSb   = $d_msb
 //     Polynomial = $poly_str
 //
 /////////////////////////////////////////////////////////////////////////////
