@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
   
-# $Id: gencrc.pl,v 1.1 2002-03-21 18:16:10 johnsonw10 Exp $
+# $Id: gencrc.pl,v 1.2 2002-03-21 19:24:56 johnsonw10 Exp $
 ######################################################################
 ####                                                              ####
 #### CRC xor equation generator                                   ####
@@ -45,6 +45,9 @@
 # CVS Revision History
 #
 # $Log: not supported by cvs2svn $
+# Revision 1.1  2002/03/21 18:16:10  johnsonw10
+# Script for CRC xor equation generation. Initial revision.
+#
 #
 #
 
@@ -217,14 +220,16 @@ for ($i = 0; $i < $c_width; $i++) {
    $c_c_idx[$i] = $i;
 }
 
-for ($i = 0; $i < $d_width; $i++) {
+my $k;
+for ($k = 0; $k < $d_width; $k++) {
+    $i = $d_width - 1 - $k;
     $nc_d_idx[0] = $c_d_idx[$c_width - 1] . " $i";
     $nc_c_idx[0] = $c_c_idx[$c_width - 1];
 
     for ($j = 1; $j < $c_width; $j++) {
 	if ($poly[$j] == 1) {
-	    $nc_d_idx[$j] = $c_d_idx[$j - 1] . " $c_d_idx[$c_width-1] $i";
-	    $nc_c_idx[$j] = $c_c_idx[$j - 1] . " $c_c_idx[$c_width -1]";
+	    $nc_d_idx[$j] = $c_d_idx[$j - 1] . " $c_d_idx[$c_width - 1] $i";
+	    $nc_c_idx[$j] = $c_c_idx[$j - 1] . " $c_c_idx[$c_width - 1]";
 	}
 	else {
 	    $nc_d_idx[$j] = $c_d_idx[$j - 1];
