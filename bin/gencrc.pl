@@ -1,6 +1,9 @@
-#!/usr/local/bin/perl
-  
-# $Id: gencrc.pl,v 1.2 2002-03-21 19:24:56 johnsonw10 Exp $
+eval '(exit $?0)' &&
+eval 'exec perl -S $0 ${1+"$@"}' &&
+eval 'exec perl -S $0 $argv:q'
+if 0;
+
+# $Id: gencrc.pl,v 1.3 2002-03-22 13:43:27 johnsonw10 Exp $
 ######################################################################
 ####                                                              ####
 #### CRC xor equation generator                                   ####
@@ -45,6 +48,9 @@
 # CVS Revision History
 #
 # $Log: not supported by cvs2svn $
+# Revision 1.2  2002/03/21 19:24:56  johnsonw10
+# Data indexes were reversed.
+#
 # Revision 1.1  2002/03/21 18:16:10  johnsonw10
 # Script for CRC xor equation generation. Initial revision.
 #
